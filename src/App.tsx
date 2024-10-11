@@ -25,7 +25,7 @@ export const App: React.FC = () => {
       .finally(() => setIsLoading(false));
   }, []);
 
-  const getFilteredTodos = () => {
+  const filteredTodos = (() => {
     const filteredTodos = todos.filter(todo => {
       const matchesFilter = (() => {
         switch (filterOption) {
@@ -46,9 +46,7 @@ export const App: React.FC = () => {
     });
 
     return filteredTodos;
-  };
-
-  const filteredTodos = getFilteredTodos();
+  })();
 
   return (
     <>

@@ -12,10 +12,6 @@ export const TodoList: React.FC<Props> = ({
   activeTodo,
   setActiveTodo,
 }) => {
-  const handleSetActiveTodo = (todo: Todo) => {
-    setActiveTodo(todo);
-  };
-
   return (
     <table className="table is-narrow is-fullwidth">
       <thead>
@@ -56,7 +52,7 @@ export const TodoList: React.FC<Props> = ({
                 data-cy="selectButton"
                 className="button"
                 type="button"
-                onClick={() => handleSetActiveTodo(todo)}
+                onClick={() => setActiveTodo(todo)}
               >
                 <span className="icon">
                   <i

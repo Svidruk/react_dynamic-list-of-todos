@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { TodoState } from '../../types/TodoState';
 
 interface Props {
@@ -12,30 +12,19 @@ export const TodoFilter: React.FC<Props> = ({
   setQuery,
   setFilterOption,
 }) => {
-  const handleFilterOptionChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    setFilterOption(event.target.value as TodoState);
-  };
-
-  const handleSearchInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setQuery(event.target.value.trimStart());
-  };
-
-  const handleClearSearch = () => {
-    setQuery('');
-  };
-
   return (
     <form className="field has-addons">
       <p className="control">
         <span className="select">
-          <select data-cy="statusSelect" onChange={handleFilterOptionChange}>
-            <option value={TodoState.all}>All</option>
-            <option value={TodoState.active}>Active</option>
-            <option value={TodoState.completed}>Completed</option>
+          <select
+            data-cy="statusSelect"
+            onChange={event => setFilterOption(event.target.value as TodoState)}
+          >
+            {Object.values(TodoState).map(option => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
           </select>
         </span>
       </p>
@@ -46,7 +35,8 @@ export const TodoFilter: React.FC<Props> = ({
           type="text"
           className="input"
           placeholder="Search..."
-          onChange={handleSearchInputChange}
+          value={query}
+          onChange={event => setQuery(event.target.value.trimStart())}
         />
         <span className="icon is-left">
           <i className="fas fa-magnifying-glass" />
@@ -59,7 +49,7 @@ export const TodoFilter: React.FC<Props> = ({
               data-cy="clearSearchButton"
               type="button"
               className="delete"
-              onClick={handleClearSearch}
+              onClick={() => setQuery('')}
             />
           )}
         </span>
