@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Loader } from '../Loader';
+import { Todo } from '../../types/Todo';
 
-export const TodoModal: React.FC = () => {
+interface Props {
+  activeTodo?: Todo;
+}
+
+export const TodoModal: React.FC<Props> = ({ activeTodo }) => {
+  const handleClose = () => {
+
+  }
+
   return (
     <div className="modal is-active" data-cy="modal">
       <div className="modal-background" />
 
-      {true ? (
+      {activeTodo ? (
         <Loader />
       ) : (
         <div className="modal-card">
@@ -19,7 +28,7 @@ export const TodoModal: React.FC = () => {
             </div>
 
             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-            <button type="button" className="delete" data-cy="modal-close" />
+            <button type="button" className="delete" data-cy="modal-close" onClick={handleClose}/>
           </header>
 
           <div className="modal-card-body">
