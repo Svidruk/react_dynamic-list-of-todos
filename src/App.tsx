@@ -26,7 +26,7 @@ export const App: React.FC = () => {
   }, []);
 
   const filteredTodos = (() => {
-    const filteredTodos = todos.filter(todo => {
+    const newTodos = todos.filter(todo => {
       const matchesFilter = (() => {
         switch (filterOption) {
           case TodoState.completed:
@@ -45,7 +45,7 @@ export const App: React.FC = () => {
       return matchesFilter && matchesQuery;
     });
 
-    return filteredTodos;
+    return newTodos;
   })();
 
   return (
