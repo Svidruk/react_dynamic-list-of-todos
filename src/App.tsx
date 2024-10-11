@@ -59,19 +59,30 @@ export const App: React.FC = () => {
 
             <div className="block">
               <TodoFilter
-                setFilterOption={setFilterOption}
+                query={query}
                 setQuery={setQuery}
+                setFilterOption={setFilterOption}
               />
             </div>
 
             <div className="block">
-              {isLoading ? <Loader /> : <TodoList todos={filteredTodos} />}
+              {isLoading ? (
+                <Loader />
+              ) : (
+                <TodoList
+                  todos={filteredTodos}
+                  activeTodo={activeTodo}
+                  setActiveTodo={setActiveTodo}
+                />
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {activeTodo && <TodoModal activeTodo={activeTodo} />}
+      {activeTodo && (
+        <TodoModal activeTodo={activeTodo} setActiveTodo={setActiveTodo} />
+      )}
     </>
   );
 };

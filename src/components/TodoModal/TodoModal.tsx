@@ -1,21 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Loader } from '../Loader';
 import { Todo } from '../../types/Todo';
+import { User } from '../../types/User';
+import { getUser } from '../../api';
 
 interface Props {
-  activeTodo?: Todo;
+  activeTodo: Todo;
+  setActiveTodo: (todo: Todo | null) => void;
 }
 
-export const TodoModal: React.FC<Props> = ({ activeTodo }) => {
-  const handleClose = () => {
+export const TodoModal: React.FC<Props> = ({ activeTodo, setActiveTodo }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [todoUser, setTodoUser] = useState<User | null>(null);
 
-  }
+  useEffect(() => {
+    getUser(activeTodo.userId)
+      .then(setTodoUser)
+      .finally(() => setIsLoading(false));
+  }, [activeTodo.userId]);
+
+  const handleClose = () => {
+    setActiveTodo(null);
+  };
 
   return (
     <div className="modal is-active" data-cy="modal">
       <div className="modal-background" />
 
-      {activeTodo ? (
+      {isLoading ? (
         <Loader />
       ) : (
         <div className="modal-card">
@@ -24,25 +36,35 @@ export const TodoModal: React.FC<Props> = ({ activeTodo }) => {
               className="modal-card-title has-text-weight-medium"
               data-cy="modal-header"
             >
-              Todo #2
+              {`Todo #${activeTodo.id}`}
             </div>
 
             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-            <button type="button" className="delete" data-cy="modal-close" onClick={handleClose}/>
+            <button
+              type="button"
+              className="delete"
+              data-cy="modal-close"
+              onClick={handleClose}
+            />
           </header>
 
           <div className="modal-card-body">
             <p className="block" data-cy="modal-title">
-              quis ut nam facilis et officia qui
+              {activeTodo.title}
             </p>
 
             <p className="block" data-cy="modal-user">
-              {/* <strong className="has-text-success">Done</strong> */}
-              <strong className="has-text-danger">Planned</strong>
+              {activeTodo.completed ? (
+                <strong className="has-text-danger">Planned</strong>
+              ) : (
+                <strong className="has-text-success">Done</strong>
+              )}
 
               {' by '}
 
-              <a href="mailto:Sincere@april.biz">Leanne Graham</a>
+              {todoUser && (
+                <a href={`mailto:${todoUser.email}`}>{todoUser.name}</a>
+              )}
             </p>
           </div>
         </div>

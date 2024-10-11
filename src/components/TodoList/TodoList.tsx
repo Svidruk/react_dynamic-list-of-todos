@@ -3,9 +3,19 @@ import { Todo } from '../../types/Todo';
 
 interface Props {
   todos: Todo[];
+  activeTodo: Todo | null;
+  setActiveTodo: (todo: Todo) => void;
 }
 
-export const TodoList: React.FC<Props> = ({ todos }) => {
+export const TodoList: React.FC<Props> = ({
+  todos,
+  activeTodo,
+  setActiveTodo,
+}) => {
+  const handleSetActiveTodo = (todo: Todo) => {
+    setActiveTodo(todo);
+  };
+
   return (
     <table className="table is-narrow is-fullwidth">
       <thead>
@@ -42,9 +52,16 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
               </p>
             </td>
             <td className="has-text-right is-vcentered">
-              <button data-cy="selectButton" className="button" type="button">
+              <button
+                data-cy="selectButton"
+                className="button"
+                type="button"
+                onClick={() => handleSetActiveTodo(todo)}
+              >
                 <span className="icon">
-                  <i className="far fa-eye" />
+                  <i
+                    className={!activeTodo ? 'far fa-eye' : 'far fa-eye-slash'}
+                  />
                 </span>
               </button>
             </td>

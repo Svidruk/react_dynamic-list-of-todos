@@ -2,11 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { TodoState } from '../../types/TodoState';
 
 interface Props {
+  query: string;
   setQuery: (query: string) => void;
   setFilterOption: (TodoState: TodoState) => void;
 }
 
-export const TodoFilter: React.FC<Props> = ({ setQuery, setFilterOption }) => {
+export const TodoFilter: React.FC<Props> = ({
+  query,
+  setQuery,
+  setFilterOption,
+}) => {
   const handleFilterOptionChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
@@ -49,12 +54,14 @@ export const TodoFilter: React.FC<Props> = ({ setQuery, setFilterOption }) => {
 
         <span className="icon is-right" style={{ pointerEvents: 'all' }}>
           {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-          <button
-            data-cy="clearSearchButton"
-            type="button"
-            className="delete"
-            onClick={handleClearSearch}
-          />
+          {query && (
+            <button
+              data-cy="clearSearchButton"
+              type="button"
+              className="delete"
+              onClick={handleClearSearch}
+            />
+          )}
         </span>
       </p>
     </form>
